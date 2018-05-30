@@ -1,0 +1,25 @@
+.card .card-content .card-title {
+    font-size: 20px !important;
+}
+
+.phones-table .card .card-image img {
+    width: 65%;
+    margin: 0 auto;
+}
+
+.details-page {
+    height: 100vh;
+}
+
+.details-page table td {
+    font-size: 15px;
+}
+
+.search-page {
+    height: 100vh;
+}
+
+.search-results .card-title {
+    font-size: 20px !important;
+}
+

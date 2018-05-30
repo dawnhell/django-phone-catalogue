@@ -1,0 +1,93 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'phone/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'libs/materialize.css' %}" />
+<script src="{% static 'libs/materialize.js' %}"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="content grey lighten-5">
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper push-l1">
+                <a href="{% url 'index' %}" class="brand-logo">Phone catalogue</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{% url 'search' %}"><i class="material-icons left">search</i>Search</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container phones-table">
+        {% if phone_list %}
+            <div class="row">
+                {% for phone in phone_list %}
+                <div class="col s12 m4">
+                    <div class="card small hoverable">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator" src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/{{ phone.imageUrl }}">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title activator grey-text text-darken-4">
+                                {{ phone.model }}
+                                <i class="material-icons right">more_vert</i>
+                            </span>
+                            <p><a href="{% url 'detail' phone.id %}">Details</a></p>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">
+                                {{ phone.model }}
+                                <i class="material-icons right">close</i>
+                            </span>
+                            <p>{{ phone.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h6>No phones are available.</h6>
+        {% endif %}
+    </div>
+
+    <ul class="pagination center">
+        {% if phone_list.has_previous %}
+            <li class="waves-effect">
+                <a href="?page={{ phone_list.previous_page_number }}">
+                    <i class="material-icons">chevron_left</i>
+                </a>
+            </li>
+        {% else %}
+            {% if not phone_list.has_previous %}
+                <li class="disabled">
+                    <a href="#!">
+                        <i class="material-icons">chevron_left</i>
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
+
+        {% for page in num_of_pages %}
+            {% if page == phone_list.number %}
+                <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
+            {% else %}
+                <li class="waves-effect"><a href="?page={{ page }}">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if phone_list.has_next %}
+            <li class="waves-effect">
+                <a href="?page={{ phone_list.next_page_number }}">
+                    <i class="material-icons">chevron_right</i>
+                </a>
+            </li>
+        {% else %}
+            {% if not phone_list.has_next %}
+                <li class="disabled">
+                    <a href="#!">
+                        <i class="material-icons">chevron_right</i>
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
+    </ul>
+</div>

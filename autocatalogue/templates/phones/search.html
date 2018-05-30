@@ -1,0 +1,144 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'phone/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'libs/materialize.css' %}" />
+<script src="{% static 'libs/materialize.js' %}"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+    .search-page {
+        height: 100vh;
+    }
+
+    .card-title {
+        font-size: 20px;
+    }
+
+    .card .card-image img {
+         width: 65%;
+         margin: 0 auto;
+     }
+</style>
+
+<div class="search-page grey lighten-5">
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="{% url 'index' %}" class="brand-logo">Phone catalogue</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{% url 'search' %}"><i class="material-icons left">search</i>Search</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="search-form row">
+            <h4 class="center">Search phones</h4>
+
+            <form class="col m12 center" method="post" action="{% url 'search' %}">
+                {% csrf_token %}
+
+                <div class="row valign-wrapper">
+                    <div class="input-field col m10">
+                        <input id="model" name="model" type="text" class="validate">
+                        <label for="model">Search by model name</label>
+                    </div>
+                    <div class="col m4">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">
+                            Search
+                            <i class="material-icons right">search</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">reorder</i>Advanced search</div>
+                    <div class="collapsible-body">
+                        <div class="row">
+                            <form action="#" method="get" class="col m12 center">
+                                <div class="row">
+                                    <div class="input-field col s4">
+                                        <select name="brand">
+                                            <option value="" disabled selected>Choose brand</option>
+                                            {% for brand in brand_list %}
+                                            <option value="{{ brand }}">{{ brand }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label>Select brand</label>
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <select name="device_type">
+                                            <option value="" disabled selected>Choose device type</option>
+                                            {% for device_type in device_type_list %}
+                                            <option value="{{ device_type }}">{{ device_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label>Select device type</label>
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <select name="os">
+                                            <option value="" disabled selected>Choose OS</option>
+                                            {% for os in os_list %}
+                                            <option value="{{ os }}">{{ os }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label>Select OS</label>
+                                    </div>
+                                </div>
+
+                                <input type="submit" class="btn" value="Filter" name="advanced_search">
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        {% if phones_search %}
+            <div class="search-results">
+                <div class="row">
+                    {% for phone in phones_search %}
+                    <div class="col s12 m4">
+                        <div class="card small hoverable">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img class="activator" src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/{{ phone.imageUrl }}">
+                            </div>
+                            <div class="card-content">
+                            <span class="card-title activator grey-text text-darken-4">
+                                {{ phone.model }}
+                                <i class="material-icons right">more_vert</i>
+                            </span>
+                                <p><a href="{% url 'detail' phone.id %}">Details</a></p>
+                            </div>
+                            <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">
+                                {{ phone.model }}
+                                <i class="material-icons right">close</i>
+                            </span>
+                                <p>{{ phone.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <h5>Nothing to show...</h5>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var collapse = document.querySelectorAll('.collapsible');
+        M.Collapsible.init(collapse, {
+            accordion: true
+        });
+
+        var select = document.querySelectorAll('select');
+        M.FormSelect.init(select, {});
+    });
+</script>

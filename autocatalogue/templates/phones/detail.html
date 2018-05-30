@@ -1,0 +1,65 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'phone/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'libs/materialize.css' %}" />
+<script src="{% static 'libs/materialize.js' %}"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="details-page grey lighten-5">
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="{% url 'index' %}" class="brand-logo">Phone catalogue</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{% url 'search' %}"><i class="material-icons left">search</i>Search</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="phone-detail container">
+        <h5 class="center">Phone details</h5>
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card-panel z-depth-1">
+                    <div class="row valign-wrapper">
+                        <div class="col s3">
+                            <img src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/{{ phone.imageUrl }}" alt="" class="responsive-img">
+                        </div>
+                        <div class="col s9">
+                            <table class="highlight">
+                                <tbody>
+                                <tr>
+                                    <td>Brand</td>
+                                    <td>{{ phone.brand }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Model</td>
+                                    <td>{{ phone.model }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Price</td>
+                                    <td>{{ phone.price }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Device type</td>
+                                    <td>{{ phone.deviceType }}</td>
+                                </tr>
+                                <tr>
+                                    <td>OS</td>
+                                    <td>{{ phone.os }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Description</td>
+                                    <td>{{ phone.description }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
